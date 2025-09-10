@@ -1,0 +1,32 @@
+{
+  "name": "kill-the-entity-with-event-trees",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bowling": "ts-node \"src/bowling game kata/main.ts\"",
+    "test": "npx jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\\\.tsx?$": "ts-jest"
+    }
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.1.0",
+    "jest": "^30.1.3",
+    "ts-jest": "^29.4.1",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "@ricofritzsche/eventstore": "^1.0.8",
+    "inquirer": "^12.9.4"
+  }
+}
