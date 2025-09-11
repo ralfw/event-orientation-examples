@@ -26,6 +26,10 @@ export class FinishGame {
         if (contextModel.gameFinished) return; // ensure idempotency
 
         const gameFinishedId = randomUUID().toString();
-        await this.eventstore.append([{eventType: "GameFinished", payload: {gameFinishedId, score, scope:{gameStartedId, matchOpenedId:contextModel.matchOpenedId}}}])
+        await this.eventstore.append([{eventType: "GameFinished", 
+                                       payload: {gameFinishedId, 
+                                                 score, 
+                                                 scope:{gameStartedId, 
+                                                        matchOpenedId:contextModel.matchOpenedId}}}])
     }
 }

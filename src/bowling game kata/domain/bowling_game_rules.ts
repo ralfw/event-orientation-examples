@@ -1,4 +1,7 @@
-export function CalculateGameState(throws: number[]): { gameOver: boolean; frame: number; roll: number; currentScore: number } {
+export function CalculateGameState(throws: number[]): { gameOver: boolean; 
+                                                        frame: number; 
+                                                        roll: number; 
+                                                        currentScore: number } {
   type Frame = { score:number, awaitingThrows:number, bonusThrowIndexes:number[] };
 
   const MAX_FRAMES = 10;
@@ -54,7 +57,6 @@ export function CalculateGameState(throws: number[]): { gameOver: boolean; frame
   }
 
   let gameOver = frames[MAX_FRAMES-1]!.awaitingThrows == 0 && frames[MAX_FRAMES]!.awaitingThrows == 0;
-
 
   return { gameOver, frame: frameIndex+1, roll: rollInFrame, currentScore };
 }

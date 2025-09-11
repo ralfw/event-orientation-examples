@@ -17,11 +17,11 @@ export class GetMatches {
         const query = createQuery(createFilter(["MatchOpened", "MatchClosed", "GameStarted"]));
         const context = await this.eventstore.query(query);
 
-        const matches = new Map<string, MatchInfo>();
+        const contextModel = new Map<string, MatchInfo>();
         for (const event of context.events) {
             if (event.eventType === "MatchOpened") {
                 const payload = event.payload as unknown as MatchOpenedPayload;
-                matches.set(payload.matchOpenedId, {
+                contextModel.set(payload.matchOpenedId, {
                     title: payload.title,
                     numberOfPlayers: payload.playernames.length,
                     numberOfGames: 0,
@@ -32,17 +32,17 @@ export class GetMatches {
             }
             if (event.eventType === "MatchClosed") {
                 const payload = event.payload as unknown as MatchClosedPayload;
-                const match = matches.get(payload.scope.matchOpenedId);
+                const match = contextModel.get(payload.scope.matchOpenedId);
                 match!.finished = true;
                 match!.winningPlayer = payload.winningPlayername;
             }
             if (event.eventType === "GameStarted") {
                 const payload = event.payload as unknown as GameStartedPayload;
-                const match = matches.get(payload.scope.matchOpenedId);
+                const match = contextModel.get(payload.scope.matchOpenedId);
                 match!.numberOfGames++;
             }
         }
 
-        return Array.from(matches.values());
+        return Array.from(contextModel.values());
     }
 }

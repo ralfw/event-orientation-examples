@@ -22,18 +22,23 @@ describe('registering a couple of throws', () => {
     });
 
     it('a couple of throws into the game with spare and strike', async () => {
-        const gs = new GetGameState(es);
+        // arrange
+        const sut = new GetGameState(es);
 
+        const matchOpenedId = "mo0";
         const gameStartedId = "gs1";
         es.append([
-            {eventType: "GameStarted", payload: {gameStartedId, playername:"Peter"}},
-            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr1", numberOfPins: 7, scope:{gameStartedId}}},
-            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr2", numberOfPins: 3, scope:{gameStartedId}}},
-            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr3", numberOfPins: 10, scope:{gameStartedId}}},
-            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr4", numberOfPins: 4, scope:{gameStartedId}}}
+            {eventType: "GameStarted", payload: {gameStartedId, playername:"Peter", scope:{matchOpenedId}}},
+            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr1", numberOfPins: 7, scope:{gameStartedId, matchOpenedId}}},
+            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr2", numberOfPins: 3, scope:{gameStartedId, matchOpenedId}}},
+            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr3", numberOfPins: 10, scope:{gameStartedId, matchOpenedId}}},
+            {eventType: "ThrowRegistered", payload: {throwRegisteredId: "tr4", numberOfPins: 4, scope:{gameStartedId, matchOpenedId}}},
         ])
-        const gameState = await gs.process(gameStartedId);
 
+        // act
+        const gameState = await sut.process(gameStartedId);
+
+        // assert
         expect(gameState.gameOver).toBe('running');
         expect(gameState.frame).toBe(3);
         expect(gameState.roll).toBe(2);

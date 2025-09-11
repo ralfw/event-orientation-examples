@@ -34,7 +34,7 @@ export class GetGameState {
 
         const gameStarted = context.events.find((e) => e.eventType == "GameStarted");
         const payload = gameStarted!.payload as unknown as GameStartedPayload;
-        let matchOpenedId = payload.scope.matchOpenedId
+        let matchOpenedId = payload.scope.matchOpenedId;
 
         // or is the game finished already?
         const gameFinished = context.events.find((e) => e.eventType == "GameFinished");
@@ -53,11 +53,11 @@ export class GetGameState {
         // the game is still running!
         // the current frame, roll, and score have to be calculated from the pins
         // knocked down with each throw
-        const pins = context.events.filter((e) => e.eventType == "ThrowRegistered")
-                                  .map((e) => e.payload.numberOfPins as number);
+        const contextModel = context.events.filter((e) => e.eventType == "ThrowRegistered")
+                                    .map((e) => e.payload.numberOfPins as number);
 
 
-        const gameState = CalculateGameState(pins);
+        const gameState = CalculateGameState(contextModel);
 
         return {
             gameOver: gameState.gameOver ? "finished" : "running",
